@@ -5,6 +5,6 @@ class WebViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('WebViewScreen'));
+    return const Center(child: Text('WebViewScreen'));
   }
 }
