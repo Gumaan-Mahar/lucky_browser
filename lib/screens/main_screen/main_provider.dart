@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucky_browser/methods/generate_random_id.dart';
 import 'package:lucky_browser/models/tab_model.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -14,7 +15,12 @@ class MainProvider extends ChangeNotifier {
 
   bool get shouldDisplayWebView => _shouldDisplayWebView;
 
-  final List<TabModel> tabs = <TabModel>[];
+  final List<TabModel> tabs = <TabModel>[
+    TabModel(
+      id: generateRandomID(),
+    ),
+  ];
+  final int selectedTabIndex = 0;
 
   void addTab(TabModel tab) {
     tabs.add(tab);

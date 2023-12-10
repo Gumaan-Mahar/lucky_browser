@@ -11,5 +11,7 @@ TextStyle globalTextStyle({
     fontSize: fontSize ?? 14.sp,
     color: color ?? AppColors.textColor,
     fontWeight: fontWeight ?? FontWeight.normal,
+    decoration: TextDecoration.none,
+    decorationThickness: 0,
   );
 }

@@ -20,7 +20,9 @@ class TabsScreen extends StatelessWidget {
         (BuildContext context, MainProvider mainProvider, Widget? child) {
       return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
@@ -33,7 +35,10 @@ class TabsScreen extends StatelessWidget {
                   ),
                   Text(
                     'New tab',
-                    style: globalTextStyle(),
+                    style: globalTextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
@@ -125,10 +130,10 @@ class TabsScreen extends StatelessWidget {
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Text(
-                                  'www.example.com',
+                                  tab.url ?? 'New tab',
                                   overflow: TextOverflow.fade,
                                   style: globalTextStyle(
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
                                     fontSize: 13.sp,
                                   ),
                                 ),

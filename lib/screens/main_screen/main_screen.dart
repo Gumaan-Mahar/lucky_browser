@@ -28,9 +28,12 @@ class MainScreen extends StatelessWidget {
                 mainProvider: mainProvider,
               ),
             ),
-            body: mainProvider.shouldDisplayWebView
-                ? const WebViewScreen()
-                : const HomeScreen(),
+            // body: mainProvider.shouldDisplayWebView
+            //     ? const WebViewScreen()
+            //     : const HomeScreen(),
+            body: mainProvider.tabs[mainProvider.selectedTabIndex].url == null
+                ? const HomeScreen()
+                : const WebViewScreen(),
           ),
         );
       },
