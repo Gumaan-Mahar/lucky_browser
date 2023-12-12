@@ -22,18 +22,18 @@ class MainScreen extends StatelessWidget {
             appBar: PreferredSize(
               preferredSize: Size(
                 AppConstants.getScreenWidth(context),
-                45.h,
+                56.h,
               ),
               child: CustomAppBar(
                 mainProvider: mainProvider,
               ),
             ),
-            // body: mainProvider.shouldDisplayWebView
-            //     ? const WebViewScreen()
-            //     : const HomeScreen(),
             body: mainProvider.tabs[mainProvider.selectedTabIndex].url == null
                 ? const HomeScreen()
-                : const WebViewScreen(),
+                : WebViewScreen(
+                    webViewController: mainProvider
+                        .webViewControllers[mainProvider.selectedTabIndex],
+                  ),
           ),
         );
       },

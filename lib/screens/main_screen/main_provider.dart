@@ -6,50 +6,49 @@ import 'package:webview_flutter/webview_flutter.dart';
 class MainProvider extends ChangeNotifier {
   final TextEditingController urlTextController = TextEditingController();
 
-  bool _shouldDisplayWebView = false;
-
-  set shouldDisplayWebView(bool value) {
-    _shouldDisplayWebView = value;
-    notifyListeners();
-  }
-
-  bool get shouldDisplayWebView => _shouldDisplayWebView;
-
   final List<TabModel> tabs = <TabModel>[
     TabModel(
       id: generateRandomID(),
+      url: null,
     ),
   ];
-  final int selectedTabIndex = 0;
+  int _selectedTabIndex = 0;
+
+  final List<WebViewController> webViewControllers = <WebViewController>[];
 
   void addTab(TabModel tab) {
     tabs.add(tab);
+    final controller = WebViewController();
+    webViewControllers.add(controller);
     notifyListeners();
   }
 
-  void removeTab(TabModel tab) {
-    tabs.remove(tab);
+  void updateTab(String? url) {
+    tabs[selectedTabIndex].url = url;
     notifyListeners();
   }
 
-  WebViewController controller = WebViewController()
-    ..setJavaScriptMode(JavaScriptMode.unrestricted)
-    ..setBackgroundColor(const Color(0x00000000))
-    ..setNavigationDelegate(
-      NavigationDelegate(
-        onProgress: (int progress) {
-          // Update loading bar.
-        },
-        onPageStarted: (String url) {},
-        onPageFinished: (String url) {},
-        onWebResourceError: (WebResourceError error) {},
-        onNavigationRequest: (NavigationRequest request) {
-          if (request.url.startsWith('https://www.youtube.com/')) {
-            return NavigationDecision.prevent;
-          }
-          return NavigationDecision.navigate;
-        },
-      ),
-    )
-    ..loadRequest(Uri.parse('https://flutter.dev'));
+  void removeTab(int index) {
+    tabs.removeAt(index);
+    webViewControllers.removeAt(index);
+    notifyListeners();
+  }
+
+  set selectedTabIndex(int value) {
+    _selectedTabIndex = value;
+    notifyListeners();
+  }
+
+  int get selectedTabIndex => _selectedTabIndex;
+
+  MainProvider() {
+    final controller = WebViewController();
+    webViewControllers.add(controller);
+  }
+
+  @override
+  void dispose() {
+    urlTextController.dispose();
+    super.dispose();
+  }
 }

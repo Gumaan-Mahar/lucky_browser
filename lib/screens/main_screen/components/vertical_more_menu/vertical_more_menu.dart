@@ -25,23 +25,23 @@ Future verticalMoreMenu({
             IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () async {
-                if (await mainProvider.controller.canGoBack()) {
-                  mainProvider.controller.goBack();
-                }
+                // if (await mainProvider.webViewController!.canGoBack()) {
+                //   await mainProvider.webViewController?.goBack();
+                // }
               },
             ),
             IconButton(
               icon: const Icon(Icons.arrow_forward),
               onPressed: () async {
-                if (await mainProvider.controller.canGoForward()) {
-                  mainProvider.controller.goForward();
-                }
+                // if (await mainProvider.webViewController!.canGoForward()) {
+                //   await mainProvider.webViewController?.goForward();
+                // }
               },
             ),
             IconButton(
               icon: const Icon(Icons.refresh),
-              onPressed: () {
-                mainProvider.controller.reload();
+              onPressed: () async {
+                // await mainProvider.webViewController?.reload();
               },
             ),
           ],

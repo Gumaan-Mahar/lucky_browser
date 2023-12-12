@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lucky_browser/core/app_colors.dart';
@@ -28,7 +30,10 @@ class CustomAppBar extends StatelessWidget {
           Icons.home_outlined,
           size: 28.w,
         ),
-        onPressed: () {},
+        onPressed: () => {
+          mainProvider.updateTab(null),
+          mainProvider.urlTextController.clear(),
+        },
       ),
       title: Row(
         children: [
@@ -43,33 +48,55 @@ class CustomAppBar extends StatelessWidget {
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w400,
               ).copyWith(
-                height: 1.2,
+                height: 1,
               ),
               decoration: InputDecoration(
-                  hintText: 'Enter URL',
-                  hintStyle: globalTextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.greyColor,
+                contentPadding: EdgeInsets.only(
+                  top: 16.h,
+                  // left: 16.w,
+                  right: 16.w,
+                ),
+                prefixIcon: Padding(
+                  padding: EdgeInsets.only(
+                    top: 12.h,
+                    left: 8.w,
+                    right: 2.w,
                   ),
-                  contentPadding: EdgeInsets.only(
-                    top: 8.h,
-                    left: 16.w,
-                    right: 16.w,
-                  ),),
+                  child: Text(
+                    'https://',
+                    style: globalTextStyle(
+                      color: AppColors.greyColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15.sp,
+                    ),
+                  ),
+                ),
+              ),
               onSubmitted: (url) async {
-                // await mainProvider.controller.loadRequest(Uri.parse(url));
-                mainProvider.shouldDisplayWebView = true;
+                mainProvider.updateTab(
+                  url.trim(),
+                );
+                await mainProvider.webViewControllers[mainProvider.selectedTabIndex]
+                    .loadRequest(Uri.parse('https://${url.trim()}/'))
+                    .onError(
+                      (error, stackTrace) => log(
+                        'error: $error',
+                      ),
+                    );
               },
             ),
           ),
           SizedBox(width: 10.w),
           GestureDetector(
             onTap: () => {
+              mainProvider.urlTextController.clear(),
               mainProvider.addTab(
                 TabModel(
                   id: generateRandomID(),
+                  url: null,
                 ),
               ),
+              mainProvider.selectedTabIndex = mainProvider.tabs.length - 1,
             },
             child: Icon(
               Icons.add,

@@ -1,6 +1,6 @@
 class TabModel {
   final String id;
-  final String? url;
+   String? url;
 
   TabModel({required this.id, this.url});
 }
